@@ -1,4 +1,4 @@
-﻿using AkuSuka.Filters;
+﻿using MyVotingApp.Filters;
 using Contracts;
 using Entities;
 using Entities.Helpers;
@@ -8,18 +8,17 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Repository;
 using System;
 using System.Linq;
 using System.Text;
 using TokenManager;
+using Microsoft.EntityFrameworkCore;
 
-namespace AkuSuka.Extensions
+namespace MyVotingApp.Extensions
 {
     public static class ServiceExtensions
     {
@@ -52,23 +51,9 @@ namespace AkuSuka.Extensions
             services.AddTransient<ITokenService, TokenService>();
         }
 
-        public static void ConfigureMySqlContext(this IServiceCollection services, IConfiguration config)
+        public static void ConfigureSqlServerContext(this IServiceCollection services, IConfiguration config)
         {
-            var connectionString = config["mysqlconnection:connectionString"]; services.AddDbContextPool<RepositoryContext>(
-                dbContextOptions => dbContextOptions
-                    .UseMySql(
-                        // Replace with your connection string.
-                        connectionString,
-                        // Replace with your server version and type.
-                        // For common usages, see pull request #1233.
-                        new MySqlServerVersion(new Version(10, 4, 11)), // use MariaDbServerVersion for MariaDB
-                        mySqlOptions => mySqlOptions
-                            .CharSetBehavior(CharSetBehavior.NeverAppend))
-                    // Everything from this point on is optional but helps with debugging.
-                    .EnableSensitiveDataLogging()
-                    .EnableDetailedErrors()
-            );
-
+            services.AddDbContext<RepositoryContext>(options => options.UseSqlServer(config.GetConnectionString("DevConnection")));
         }
 
         public static void ConfigureRepositoryWrapper(this IServiceCollection services)
@@ -76,10 +61,12 @@ namespace AkuSuka.Extensions
             services.AddScoped<ISortHelper<Owner>, SortHelper<Owner>>();
             services.AddScoped<ISortHelper<Account>, SortHelper<Account>>();
             services.AddScoped<ISortHelper<Product>, SortHelper<Product>>();
+            services.AddScoped<ISortHelper<Voting>, SortHelper<Voting>>();
 
             services.AddScoped<IDataShaper<Owner>, DataShaper<Owner>>();
             services.AddScoped<IDataShaper<Account>, DataShaper<Account>>();
             services.AddScoped<IDataShaper<Product>, DataShaper<Product>>();
+            services.AddScoped<IDataShaper<Voting>, DataShaper<Voting>>();
 
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
             services.AddScoped<ValidateMediaTypeAttribute>();

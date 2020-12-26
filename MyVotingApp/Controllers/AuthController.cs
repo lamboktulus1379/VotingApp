@@ -14,7 +14,7 @@ using System.Security.Claims;
 using Repository;
 using Contracts;
 
-namespace AkuSuka.Controllers
+namespace MyVotingApp.Controllers
 {
     [Route("api/auth")]
     [ApiController]

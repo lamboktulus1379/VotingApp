@@ -1,13 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
-using AkuSuka.Extensions;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +9,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using MyVotingApp.Extensions;
 using NLog;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.Json;
+using System.Threading.Tasks;
 
-namespace AkuSuka
+namespace MyVotingApp
 {
     public class Startup
     {
@@ -40,7 +39,8 @@ namespace AkuSuka
 
             services.ConfigureLoggerService();
 
-            services.ConfigureMySqlContext(Configuration);
+            //services.ConfigureMySqlContext(Configuration);
+            services.ConfigureSqlServerContext(Configuration);
 
             services.ConfigureTokenService();
 
@@ -95,6 +95,10 @@ namespace AkuSuka
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGet("/", async context =>
+                {
+                    await context.Response.WriteAsync("Hello World!");
+                });
             });
         }
     }

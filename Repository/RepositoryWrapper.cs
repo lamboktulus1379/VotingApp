@@ -12,12 +12,15 @@ namespace Repository
         private IAccountRepository _account;
         private IProductRepository _product;
         private IUserRepository _user;
+        private IVotingRepository _voting;
         private ISortHelper<Owner> _ownerSortHelper;
         private ISortHelper<Account> _accountSortHelper;
         private readonly ISortHelper<Product> _productSortHelper;
+        private readonly ISortHelper<Voting> _votingSortHelper;
         private IDataShaper<Owner> _ownerDataShaper;
         private IDataShaper<Account> _accountDataShaper;
         private readonly IDataShaper<Product> _productDataShaper;
+        private readonly IDataShaper<Voting> _votingDataShaper;
 
         public IOwnerRepository Owner
         {
@@ -47,7 +50,7 @@ namespace Repository
             {
                 if (_product == null)
                 {
-                    _product = new ProductRepository(_repoContext, _productSortHelper, _productDataShaper); 
+                    _product = new ProductRepository(_repoContext, _productSortHelper, _productDataShaper);
                 }
                 return _product;
             }
@@ -64,22 +67,38 @@ namespace Repository
                 return _user;
             }
         }
-        public RepositoryWrapper(RepositoryContext repositoryContext, 
+
+        public IVotingRepository Voting
+        {
+            get
+            {
+                if (_voting == null)
+                {
+                    _voting = new VotingRepository(_repoContext, _votingSortHelper, _votingDataShaper);
+                }
+                return _voting;
+            }
+        }
+        public RepositoryWrapper(RepositoryContext repositoryContext,
             ISortHelper<Owner> ownerSortHelper,
             ISortHelper<Account> accountSortHelper,
             ISortHelper<Product> productSortHelper,
+            ISortHelper<Voting> votingSortHelper,
             IDataShaper<Owner> ownerDataShaper,
             IDataShaper<Account> accountDataShaper,
-            IDataShaper<Product> productDataShaper
+            IDataShaper<Product> productDataShaper,
+            IDataShaper<Voting> votingDataShaper
             )
         {
             _repoContext = repositoryContext;
             _ownerSortHelper = ownerSortHelper;
             _accountSortHelper = accountSortHelper;
             _productSortHelper = productSortHelper;
+            _votingSortHelper = votingSortHelper;
             _ownerDataShaper = ownerDataShaper;
             _accountDataShaper = accountDataShaper;
             _productDataShaper = productDataShaper;
+            _votingDataShaper = votingDataShaper;
         }
         public void Save()
         {

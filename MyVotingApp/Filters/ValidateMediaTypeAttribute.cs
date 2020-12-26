@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AkuSuka.Filters
+namespace MyVotingApp.Filters
 {
     public class ValidateMediaTypeAttribute : IActionFilter
     {

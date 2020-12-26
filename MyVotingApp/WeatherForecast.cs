@@ -1,6 +1,6 @@
 using System;
 
-namespace AkuSuka
+namespace MyVotingApp
 {
     public class WeatherForecast
     {
