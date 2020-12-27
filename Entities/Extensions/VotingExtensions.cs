@@ -10,8 +10,8 @@ namespace Entities.Extensions
         public static void Map(this Voting dbVoting, Voting voting)
         {
             dbVoting.Name = voting.Name;
+            dbVoting.CategoryId = voting.CategoryId;
             dbVoting.VotersCount = voting.VotersCount;
-            dbVoting.Categories = voting.Categories;
             dbVoting.DateCreated = voting.DateCreated;
             dbVoting.DueDate = voting.DueDate;
             dbVoting.Description = voting.Description;

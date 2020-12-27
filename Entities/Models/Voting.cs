@@ -5,26 +5,29 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
 {
-	[Table("Voting")]
-	public class Voting : IEntity
-	{
-		[Key]
-		[Column("Id")]
-		public Guid Id { get; set; }
+    [Table("Voting")]
+    public class Voting : IEntity
+    {
+        [Key]
+        [Column("Id")]
+        public Guid Id { get; set; }
 
-		[Required(ErrorMessage = "Name is required")]
-		[StringLength(60, ErrorMessage = "Name can't be longer than 60 characters")]
-		public string Name { get; set; }
+        [Required(ErrorMessage = "Name is required")]
+        [StringLength(60, ErrorMessage = "Name can't be longer than 60 characters")]
+        public string Name { get; set; }
 
-		[StringLength(1024, ErrorMessage = "Description can't be longer than 1024 characters")]
+        [StringLength(1024, ErrorMessage = "Description can't be longer than 1024 characters")]
         public string Description { get; set; }
 
-		[Required(ErrorMessage = "Date Created  is required")]
+        [Required(ErrorMessage = "Date Created  is required")]
         public DateTime DateCreated { get; set; }
-		[Required(ErrorMessage = "Voters Count is required")]
+        [Required(ErrorMessage = "Voters Count is required")]
         public int VotersCount { get; set; }
-		[Required(ErrorMessage = "Due Date is requried")]
+        [Required(ErrorMessage = "Due Date is required")]
         public DateTime DueDate { get; set; }
-        public ICollection<Category> Categories { get; set; }
+        [Required(ErrorMessage = "Categories is required")]
+        [ForeignKey(nameof(Category))]
+        public Guid CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 }

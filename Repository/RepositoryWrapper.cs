@@ -13,14 +13,17 @@ namespace Repository
         private IProductRepository _product;
         private IUserRepository _user;
         private IVotingRepository _voting;
+        private ICategoryRepository _category;
         private ISortHelper<Owner> _ownerSortHelper;
         private ISortHelper<Account> _accountSortHelper;
         private readonly ISortHelper<Product> _productSortHelper;
         private readonly ISortHelper<Voting> _votingSortHelper;
+        private readonly ISortHelper<Category> _categorySortHelper;
         private IDataShaper<Owner> _ownerDataShaper;
         private IDataShaper<Account> _accountDataShaper;
         private readonly IDataShaper<Product> _productDataShaper;
         private readonly IDataShaper<Voting> _votingDataShaper;
+        private readonly IDataShaper<Category> _categoryDataShaper;
 
         public IOwnerRepository Owner
         {
@@ -79,15 +82,30 @@ namespace Repository
                 return _voting;
             }
         }
+
+        public ICategoryRepository Category
+        {
+            get
+            {
+                if (_category == null)
+                {
+                    _category = new CategoryRepository(_repoContext, _categorySortHelper, _categoryDataShaper);
+                }
+                return _category;
+            }
+        }
+
         public RepositoryWrapper(RepositoryContext repositoryContext,
             ISortHelper<Owner> ownerSortHelper,
             ISortHelper<Account> accountSortHelper,
             ISortHelper<Product> productSortHelper,
             ISortHelper<Voting> votingSortHelper,
+            ISortHelper<Category> categorySortHelper,
             IDataShaper<Owner> ownerDataShaper,
             IDataShaper<Account> accountDataShaper,
             IDataShaper<Product> productDataShaper,
-            IDataShaper<Voting> votingDataShaper
+            IDataShaper<Voting> votingDataShaper,
+            IDataShaper<Category> categoryDataShaper
             )
         {
             _repoContext = repositoryContext;
@@ -95,10 +113,12 @@ namespace Repository
             _accountSortHelper = accountSortHelper;
             _productSortHelper = productSortHelper;
             _votingSortHelper = votingSortHelper;
+            _categorySortHelper = categorySortHelper;
             _ownerDataShaper = ownerDataShaper;
             _accountDataShaper = accountDataShaper;
             _productDataShaper = productDataShaper;
             _votingDataShaper = votingDataShaper;
+            _categoryDataShaper = categoryDataShaper;
         }
         public void Save()
         {

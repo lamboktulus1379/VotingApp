@@ -7,6 +7,7 @@
         IProductRepository Product { get; }
         IUserRepository User { get; }
         IVotingRepository Voting { get; }
+        ICategoryRepository Category { get; }
         void Save();
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entities.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20201226061237_Initial Create")]
-    partial class InitialCreate
+    [Migration("20201227014431_Added Foreign Key on Voting to Category")]
+    partial class AddedForeignKeyonVotingtoCategory
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,21 +20,6 @@ namespace Entities.Migrations
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.1");
-
-            modelBuilder.Entity("CategoryVoting", b =>
-                {
-                    b.Property<Guid>("CategoriesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("VotingsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("CategoriesId", "VotingsId");
-
-                    b.HasIndex("VotingsId");
-
-                    b.ToTable("CategoryVoting");
-                });
 
             modelBuilder.Entity("Entities.Models.Category", b =>
                 {
@@ -78,7 +63,7 @@ namespace Entities.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f0f89d27-fea6-45b8-99a2-51a3d66718ac"),
+                            Id = new Guid("50100dc5-c949-4fae-a983-6a0e790c9aa4"),
                             Password = "gra0307",
                             RefreshTokenExpiry = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Username = "lamboktulus1379"
@@ -91,6 +76,9 @@ namespace Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("Id");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -112,22 +100,20 @@ namespace Entities.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Voting");
                 });
 
-            modelBuilder.Entity("CategoryVoting", b =>
+            modelBuilder.Entity("Entities.Models.Voting", b =>
                 {
-                    b.HasOne("Entities.Models.Category", null)
+                    b.HasOne("Entities.Models.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoriesId")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Models.Voting", null)
-                        .WithMany()
-                        .HasForeignKey("VotingsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

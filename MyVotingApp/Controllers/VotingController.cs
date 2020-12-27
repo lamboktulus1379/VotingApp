@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.ObjectPool;
 
 namespace MyVotingApp.Controllers
 {
@@ -81,6 +82,8 @@ namespace MyVotingApp.Controllers
                 return BadRequest("Invalid model object");
             }
 
+           
+
             _repository.Voting.CreateVoting(voting);
             _repository.Save();
 
@@ -88,6 +91,8 @@ namespace MyVotingApp.Controllers
         }
 
         [HttpGet("{id}", Name = "VotingById")]
+
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
         public IActionResult GetVotingById(Guid id, [FromQuery] string fields)
         {
             var voting = _repository.Voting.GetVotingById(id, fields);

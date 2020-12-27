@@ -12,10 +12,9 @@ namespace Entities.Models
     {
         [Key]
         [Column("Id")]
-        public Guid Id { get ; set; }
+        public Guid Id { get; set; }
         [Required(ErrorMessage = "Name is required")]
-        [StringLength(60, ErrorMessage ="Name can't be longer than 60 characters")]
+        [StringLength(60, ErrorMessage = "Name can't be longer than 60 characters")]
         public string Name { get; set; }
-        public ICollection<Voting> Votings { get; set; }
     }
 }

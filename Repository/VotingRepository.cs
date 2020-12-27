@@ -24,7 +24,7 @@ namespace Repository
         }
         public void CreateVoting(Voting voting)
         {
-            CreateVoting(voting);
+            Create(voting);
         }
 
         public void DeleteVoting(Voting voting)
@@ -72,7 +72,6 @@ namespace Repository
         public Voting GetVotingWithDetails(Guid votingId)
         {
             return FindByCondition(voting => voting.Id.Equals(votingId))
-                .Include(ct => ct.Categories)
                 .FirstOrDefault();
         }
 

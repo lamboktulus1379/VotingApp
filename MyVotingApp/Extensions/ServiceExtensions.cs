@@ -62,11 +62,13 @@ namespace MyVotingApp.Extensions
             services.AddScoped<ISortHelper<Account>, SortHelper<Account>>();
             services.AddScoped<ISortHelper<Product>, SortHelper<Product>>();
             services.AddScoped<ISortHelper<Voting>, SortHelper<Voting>>();
+            services.AddScoped<ISortHelper<Category>, SortHelper<Category>>();
 
             services.AddScoped<IDataShaper<Owner>, DataShaper<Owner>>();
             services.AddScoped<IDataShaper<Account>, DataShaper<Account>>();
             services.AddScoped<IDataShaper<Product>, DataShaper<Product>>();
             services.AddScoped<IDataShaper<Voting>, DataShaper<Voting>>();
+            services.AddScoped<IDataShaper<Category>, DataShaper<Category>>();
 
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
             services.AddScoped<ValidateMediaTypeAttribute>();
