@@ -41,7 +41,7 @@ namespace MyVotingApp.Controllers
             var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);
             var username = principal.Identity.Name;
 
-            var user = _repository.User.GetUserByUsername(username);
+            var user = _repository.User.GetUserByEmail(username);
 
             if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiry <= DateTime.Now)
             {
@@ -66,8 +66,8 @@ namespace MyVotingApp.Controllers
         [Route("rovoke")]
         public IActionResult Revoke()
         {
-            var username = User.Identity.Name;
-            var user = _repository.User.GetUserByUsername(username);
+            var email = User.Identity.Name;
+            var user = _repository.User.GetUserByEmail(email);
 
             if (user == null)
                 return BadRequest();

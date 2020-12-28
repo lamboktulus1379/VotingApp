@@ -82,7 +82,7 @@ namespace MyVotingApp.Controllers
                 return BadRequest("Invalid model object");
             }
 
-           
+
 
             _repository.Voting.CreateVoting(voting);
             _repository.Save();
@@ -114,6 +114,23 @@ namespace MyVotingApp.Controllers
             voting.Entity.Add("Links", CreateLinksForVoting(voting.Id, fields));
 
             return Ok(voting.Entity);
+        }
+
+        [HttpGet("{id}/categories", Name = "VotingWithCategories")]
+
+        public IActionResult GetVotingWithCategories(Guid id)
+        {
+            var voting = _repository.Voting.GetVotingWithDetails(id);
+
+            if (voting.Id == Guid.Empty)
+            {
+                _logger.LogError($"Voting with id: {id}, hasn't been found in db.");
+                return NotFound();
+            }
+
+
+            _logger.LogInfo($"Returned voting");
+            return Ok(voting);
         }
 
         [HttpPut("{id}")]

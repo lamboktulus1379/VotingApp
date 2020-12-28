@@ -20,8 +20,12 @@ namespace Entities.Configuration
                 new User
                 {
                     Id = Guid.NewGuid(),
-                    Username = "lamboktulus1379",
-                    Password = "gra0307"
+                    FirstName = "Lambok Tulus",
+                    LastName = "Simamora",
+                    Age = 25,
+                    Gender = "L",                    
+                    Email = "lamboktulus1379@gmail.com",
+                    Password = "Gra0307"
                 }
             );
         }

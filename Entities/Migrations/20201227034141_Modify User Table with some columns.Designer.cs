@@ -4,14 +4,16 @@ using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Entities.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20201227034141_Modify User Table with some columns")]
+    partial class ModifyUserTablewithsomecolumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,7 +81,7 @@ namespace Entities.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c41e73b7-b550-4e9c-8778-eabc3a04017d"),
+                            Id = new Guid("b799b717-a25e-4256-b923-c6e6a7b2820a"),
                             Age = 25L,
                             Email = "lamboktulus1379@gmail.com",
                             FirstName = "Lambok Tulus",

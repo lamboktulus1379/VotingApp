@@ -11,5 +11,6 @@ namespace Entities.Models
             OrderBy = "DateCreated";
         }
         public string Name { get; set; }
+        public string WhereIn { get; set; }
     }
 }

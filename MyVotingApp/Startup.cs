@@ -47,6 +47,9 @@ namespace MyVotingApp
             services.ConfigureRepositoryWrapper();
 
             services.AddJwtAuthentication();
+            services.AddCustomMediaTypes();
+
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddControllers(config =>
             {
@@ -58,12 +61,10 @@ namespace MyVotingApp
             .AddNewtonsoftJson()
             .AddJsonOptions(options =>
             {
-                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
 
-            services.AddCustomMediaTypes();
-
-            services.AddAutoMapper(typeof(Startup));
+            
 
         }
 
@@ -86,9 +87,9 @@ namespace MyVotingApp
                 ForwardedHeaders = ForwardedHeaders.All
             });
 
-            app.UseRouting();
 
             app.UseAuthentication();
+            app.UseRouting();
 
             app.UseAuthorization();
 
@@ -100,6 +101,7 @@ namespace MyVotingApp
                     await context.Response.WriteAsync("Hello World!");
                 });
             });
+            
         }
     }
 }

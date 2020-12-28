@@ -34,12 +34,21 @@ namespace Repository
 
         public PagedList<ShapedEntity> GetVotings(VotingParameters votingParameters)
         {
-            var votings = FindAll();
-            SearchByName(ref votings, votingParameters.Name);
-            var sortedOwners = _sortHelper.ApplySort(votings, votingParameters.OrderBy);
-            var shapedOwners = _dataShaper.ShapeData(sortedOwners, votingParameters.Fields);
+            IQueryable<Voting> votings;
+            if (votingParameters.WhereIn != null)
+            {
+            string[] filterCategories = votingParameters?.WhereIn.Trim().Split(",");
+                votings = FindAll().Where(e => filterCategories.Contains(e.CategoryId.ToString())).Include(ct => ct.Category).AsNoTracking();
 
-            return PagedList<ShapedEntity>.ToPagedList(shapedOwners,
+            } else
+            {
+                 votings = FindAll().Include(ct => ct.Category).AsNoTracking();
+            }
+            SearchByName(ref votings, votingParameters.Name);
+            var sortedVotings = _sortHelper.ApplySort(votings, votingParameters.OrderBy);
+            var shapedVotings = _dataShaper.ShapeData(sortedVotings, votingParameters.Fields);
+
+            return PagedList<ShapedEntity>.ToPagedList(shapedVotings,
                 votingParameters.PageNumber,
                 votingParameters.PageSize);
         }
@@ -58,6 +67,7 @@ namespace Repository
         public ShapedEntity GetVotingById(Guid votingId, string fields)
         {
             var voting = FindByCondition(voting => voting.Id.Equals(votingId))
+                .Include(ac => ac.Category)
                 .FirstOrDefault();
 
             return _dataShaper.ShapeData(voting, fields);
@@ -72,6 +82,7 @@ namespace Repository
         public Voting GetVotingWithDetails(Guid votingId)
         {
             return FindByCondition(voting => voting.Id.Equals(votingId))
+                .Include(ct => ct.Category)
                 .FirstOrDefault();
         }
 

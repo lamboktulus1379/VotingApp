@@ -16,14 +16,19 @@ namespace Repository
 
         }
 
-        public User CheckUser(string username, string password)
+        public User CheckUser(string email, string password)
         {
-            return FindByCondition(user => user.Username.Equals(username) && user.Password.Equals(password)).FirstOrDefault();
+            return FindByCondition(user => user.Email.Equals(email) && user.Password.Equals(password)).FirstOrDefault();
         }
 
-        public User GetUserByUsername(string username)
+        public void CreateUser(User user)
         {
-            return FindByCondition(user => user.Username.Equals(username)).FirstOrDefault();
+            Create(user);
+        }
+
+        public User GetUserByEmail(string email)
+        {
+            return FindByCondition(user => user.Email.Equals(email)).FirstOrDefault();
         }
 
         public void UpdateUser(User user)

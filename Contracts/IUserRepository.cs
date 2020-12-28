@@ -9,9 +9,10 @@ namespace Contracts
 {
     public interface IUserRepository : IRepositoryBase<User>
     {
-        User CheckUser(string username, string password);
+        User CheckUser(string email, string password);
 
-        User GetUserByUsername(string username);
+        User GetUserByEmail(string email);
         void UpdateUser(User user);
+        void CreateUser(User user);
     }
 }
