@@ -17,7 +17,14 @@ namespace Entities
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Votings)
+                .WithMany(v => v.Users)
+                .UsingEntity<UsersVotings>(
+                j => j.HasOne(m => m.Voting).WithMany(g => g.UsersVotings), j => j.HasOne(m => m.User).WithMany(u => u.UsersVotings));
         }
-        #endregion
+
     }
+    #endregion
 }

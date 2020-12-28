@@ -60,6 +60,7 @@ namespace MyVotingApp.Controllers
 
             return Ok(new
             {
+                Id = user.Id,
                 Token = accessToken,
                 RefreshToken = refreshToken
             });

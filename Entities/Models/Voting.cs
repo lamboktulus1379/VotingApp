@@ -29,5 +29,7 @@ namespace Entities.Models
         [ForeignKey(nameof(Category))]
         public Guid CategoryId { get; set; }
         public Category Category { get; set; }
+        public ICollection<User> Users { get; set; }
+        public ICollection<UsersVotings> UsersVotings { get; set; }
     }
 }

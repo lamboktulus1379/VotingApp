@@ -14,6 +14,7 @@ namespace Repository
         private IUserRepository _user;
         private IVotingRepository _voting;
         private ICategoryRepository _category;
+        private IUserVotingRepository _usersVotings;
         private ISortHelper<Owner> _ownerSortHelper;
         private ISortHelper<Account> _accountSortHelper;
         private readonly ISortHelper<Product> _productSortHelper;
@@ -92,6 +93,18 @@ namespace Repository
                     _category = new CategoryRepository(_repoContext, _categorySortHelper, _categoryDataShaper);
                 }
                 return _category;
+            }
+        }
+
+        public IUserVotingRepository UsersVotings
+        {
+            get
+            {
+                if (_usersVotings == null)
+                {
+                    _usersVotings = new UserVotingRepository(_repoContext);
+                }
+                return _usersVotings;
             }
         }
 

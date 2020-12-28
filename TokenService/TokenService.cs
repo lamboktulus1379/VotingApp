@@ -20,7 +20,7 @@ namespace TokenManager
                 audience: "https://localhost:5000",
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(5),
-                signingCredentials: signinCredentials
+                signingCredentials: signinCredentials              
             );
             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
             return tokenString;

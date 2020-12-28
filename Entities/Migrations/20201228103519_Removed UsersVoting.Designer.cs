@@ -4,14 +4,16 @@ using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Entities.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20201228103519_Removed UsersVoting")]
+    partial class RemovedUsersVoting
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,7 +81,7 @@ namespace Entities.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b875c885-4601-464a-b129-f1177400ae8b"),
+                            Id = new Guid("c674e5b3-afc4-40cd-b24b-cefc1de56aa1"),
                             Age = 25L,
                             Email = "lamboktulus1379@gmail.com",
                             FirstName = "Lambok Tulus",
@@ -88,21 +90,6 @@ namespace Entities.Migrations
                             Password = "Gra0307",
                             RefreshTokenExpiry = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
-                });
-
-            modelBuilder.Entity("Entities.Models.UsersVotings", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("VotingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("UserId", "VotingId");
-
-                    b.HasIndex("VotingId");
-
-                    b.ToTable("UsersVotings");
                 });
 
             modelBuilder.Entity("Entities.Models.Voting", b =>
@@ -140,23 +127,19 @@ namespace Entities.Migrations
                     b.ToTable("Voting");
                 });
 
-            modelBuilder.Entity("Entities.Models.UsersVotings", b =>
+            modelBuilder.Entity("UserVoting", b =>
                 {
-                    b.HasOne("Entities.Models.User", "User")
-                        .WithMany("UsersVotings")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<Guid>("UsersId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasOne("Entities.Models.Voting", "Voting")
-                        .WithMany("UsersVotings")
-                        .HasForeignKey("VotingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<Guid>("VotingsId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Navigation("User");
+                    b.HasKey("UsersId", "VotingsId");
 
-                    b.Navigation("Voting");
+                    b.HasIndex("VotingsId");
+
+                    b.ToTable("UserVoting");
                 });
 
             modelBuilder.Entity("Entities.Models.Voting", b =>
@@ -170,14 +153,19 @@ namespace Entities.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Entities.Models.User", b =>
+            modelBuilder.Entity("UserVoting", b =>
                 {
-                    b.Navigation("UsersVotings");
-                });
+                    b.HasOne("Entities.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("Entities.Models.Voting", b =>
-                {
-                    b.Navigation("UsersVotings");
+                    b.HasOne("Entities.Models.Voting", null)
+                        .WithMany()
+                        .HasForeignKey("VotingsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

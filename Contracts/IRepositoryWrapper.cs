@@ -8,6 +8,7 @@
         IUserRepository User { get; }
         IVotingRepository Voting { get; }
         ICategoryRepository Category { get; }
+        IUserVotingRepository UsersVotings { get; }
         void Save();
     }
 }

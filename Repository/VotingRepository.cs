@@ -16,11 +16,13 @@ namespace Repository
     {
         private readonly ISortHelper<Voting> _sortHelper;
         private readonly IDataShaper<Voting> _dataShaper;
+        private readonly RepositoryContext _repositoryContext;
 
         public VotingRepository(RepositoryContext repositoryContext, ISortHelper<Voting> sortHelper, IDataShaper<Voting> dataShaper) : base(repositoryContext)
         {
             _sortHelper = sortHelper;
             _dataShaper = dataShaper;
+            _repositoryContext = repositoryContext;
         }
         public void CreateVoting(Voting voting)
         {
@@ -38,11 +40,11 @@ namespace Repository
             if (votingParameters.WhereIn != null)
             {
             string[] filterCategories = votingParameters?.WhereIn.Trim().Split(",");
-                votings = FindAll().Where(e => filterCategories.Contains(e.CategoryId.ToString())).Include(ct => ct.Category).AsNoTracking();
+                votings = FindAll().Where(e => filterCategories.Contains(e.CategoryId.ToString())).Include(ct => ct.Category).Include(u => u.Users).AsNoTracking();
 
             } else
             {
-                 votings = FindAll().Include(ct => ct.Category).AsNoTracking();
+                votings = FindAll().Include(ct => ct.Category).AsNoTracking();
             }
             SearchByName(ref votings, votingParameters.Name);
             var sortedVotings = _sortHelper.ApplySort(votings, votingParameters.OrderBy);

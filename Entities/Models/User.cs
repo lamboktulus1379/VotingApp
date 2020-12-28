@@ -28,5 +28,7 @@ namespace Entities.Models
         public uint Age { get; set; }
         public string RefreshToken { get; set; }
         public DateTime RefreshTokenExpiry { get; set; }
+        public ICollection<Voting> Votings { get; set; }
+        public ICollection<UsersVotings> UsersVotings { get; set; }
     }
 }
