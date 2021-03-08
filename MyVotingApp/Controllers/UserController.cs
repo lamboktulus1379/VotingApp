@@ -64,7 +64,6 @@ namespace MyVotingApp.Controllers
             var vt = _repositoryContext.Users.Where(c => c.Id.Equals(idUser)).SelectMany(c => c.Votings).ToList();
             bool exist = false;
             user.Votings = vt;
-            Voting voting1;
             foreach (var item in vt)
             {
                 Console.WriteLine(vt);

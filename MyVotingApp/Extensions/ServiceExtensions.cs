@@ -57,6 +57,16 @@ namespace MyVotingApp.Extensions
             services.AddDbContext<RepositoryContext>(options => options.UseSqlServer(config.GetConnectionString("DevConnection")));
         }
 
+        public static void ConfigureMySqlContext(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddDbContext<RepositoryContext>(options => options.UseMySql(config.GetConnectionString("DevConnection"), MariaDbServerVersion.LatestSupportedServerVersion));
+        }
+
+        public static void ConfigureInMemoryDatabaseContext(this IServiceCollection services, IConfiguration config)
+        {
+            IServiceCollection serviceCollections = services.AddDbContext<RepositoryContext>(options => options.UseInMemoryDatabase("voting-app"));
+        }
+
         public static void ConfigureRepositoryWrapper(this IServiceCollection services)
         {
             services.AddScoped<ISortHelper<Owner>, SortHelper<Owner>>();

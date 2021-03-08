@@ -40,7 +40,9 @@ namespace Repository
             if (votingParameters.WhereIn != null)
             {
             string[] filterCategories = votingParameters?.WhereIn.Trim().Split(",");
-                votings = FindAll().Where(e => filterCategories.Contains(e.CategoryId.ToString())).Include(ct => ct.Category).Include(u => u.Users).AsNoTracking();
+                votings = FindAll().Where(e => filterCategories.Contains(e.CategoryId.ToString())).Include(ct => ct.Category).
+                    Include(u => u.Users).
+                    AsNoTracking();
 
             } else
             {

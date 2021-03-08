@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using MyVotingApp.Extensions;
 using NLog;
 using System;
@@ -39,8 +40,8 @@ namespace MyVotingApp
 
             services.ConfigureLoggerService();
 
-            //services.ConfigureMySqlContext(Configuration);
-            services.ConfigureSqlServerContext(Configuration);
+            services.ConfigureMySqlContext(Configuration);
+            //services.ConfigureSqlServerContext(Configuration);
 
             services.ConfigureTokenService();
 
@@ -51,21 +52,27 @@ namespace MyVotingApp
 
             services.AddAutoMapper(typeof(Startup));
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "VotingApi API",
+                    Version = "v1"
+                });
+            });
+
             services.AddControllers(config =>
             {
                 config.RespectBrowserAcceptHeader = true;
                 config.ReturnHttpNotAcceptable = true;
 
-            })
-                .AddXmlDataContractSerializerFormatters()
+            }).AddXmlDataContractSerializerFormatters()
             .AddNewtonsoftJson()
             .AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
-            });
-
-            
-
+            })
+            .AddNewtonsoftJson(o => o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -101,7 +108,14 @@ namespace MyVotingApp
                     await context.Response.WriteAsync("Hello World!");
                 });
             });
-            
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "VotingApp API V1");
+            });
+
         }
     }
 }

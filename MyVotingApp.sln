@@ -11,11 +11,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entiti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{2778652E-48F3-4887-84D6-C4495636A4B1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TokenManager", "TokenService\TokenManager.csproj", "{DA122969-56FD-40DD-826B-A14846914353}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TokenService", "TokenService\TokenService.csproj", "{DA122969-56FD-40DD-826B-A14846914353}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VotingAppTest", "VotingAppTest\VotingAppTest.csproj", "{11FD4810-726E-47B0-BDB7-71E948CBF39C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyVotingApp", "MyVotingApp\MyVotingApp.csproj", "{5E33BC41-8EEE-4777-9D0F-E51857290F7E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1C626AEE-EDC5-41FA-AC68-3647ACC0EC78}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+		docker-compose.yml = docker-compose.yml
+		docker-entrypoint-initdb.d = docker-entrypoint-initdb.d
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
